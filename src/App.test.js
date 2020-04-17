@@ -22,7 +22,7 @@ describe('<App />', () => {
 
     expect(container.querySelector('.blog-list')).toBeDefined()
 
-    expect(container.querySelector('.logged')).toHaveTextContent(
+    expect(container.querySelector('.logged-user')).toHaveTextContent(
       'John Doe logged in'
     )
 

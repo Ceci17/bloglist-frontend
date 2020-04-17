@@ -3,9 +3,10 @@ import React from 'react'
 const Input = (props) => {
   const { label, name } = props
   return (
-    <div className="field">
+    <>
       {label && <label htmlFor={name}>{label}: </label>}
       <input
+        className="input"
         {...props}
         style={{
           padding: 5,
@@ -14,7 +15,7 @@ const Input = (props) => {
           minWidth: 200
         }}
       />
-    </div>
+    </>
   )
 }
 
