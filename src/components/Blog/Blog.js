@@ -13,7 +13,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
   return (
     <article className="blog">
       <BlogTitle title={blog.title} author={blog.author}>
-        <button onClick={handleView}>
+        <button className="btn btn-show" onClick={handleView}>
           {visible ? 'hide' : 'view'}
         </button>
       </BlogTitle>

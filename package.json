@@ -17,7 +17,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "test:ci": "CI=true npm test"
+    "test:ci": "CI=true npm test",
+    "cypress:open": "cypress open",
+    "test:e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,7 +39,9 @@
   "proxy": "http://localhost:3003",
   "devDependencies": {
     "@testing-library/user-event": "^7.2.1",
+    "cypress": "^4.4.0",
     "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-prettier": "^3.1.2",
     "prettier": "^2.0.4"

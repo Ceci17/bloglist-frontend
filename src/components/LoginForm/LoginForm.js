@@ -5,6 +5,7 @@ const LoginForm = ({ values, handleChange, handleLogin }) => {
   return (
     <form id="login-form" onSubmit={handleLogin}>
       <Input
+        id="username"
         type="text"
         value={values.username}
         name="username"
@@ -12,6 +13,7 @@ const LoginForm = ({ values, handleChange, handleLogin }) => {
         placeholder="username"
       />
       <Input
+        id="password"
         type="password"
         value={values.password}
         name="password"
