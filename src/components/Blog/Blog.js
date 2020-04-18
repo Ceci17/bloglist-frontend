@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
 import { BlogTitle, Like } from './components'
 
-const Blog = ({ blog, handleLike, handleDelete }) => {
+const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [visible, setVisible] = useState(false)
 
   const handleView = () => setVisible(!visible)
-
-  const loggedUser = JSON.parse(
-    window.localStorage.getItem('loggedUser')
-  )
 
   return (
     <article className="blog">
@@ -36,7 +32,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
           >
             {blog.user.name}
           </p>
-          {loggedUser.username === blog.user.username && (
+          {user.username === blog.user.username && (
             <button
               style={{
                 backgroundColor: '#bb2124',

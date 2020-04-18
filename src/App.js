@@ -84,7 +84,18 @@ const App = () => {
         url: blogValues.url
       })
 
-      setBlogs([...blogs, newBlog])
+      const { username, name } = user
+
+      const populatedBlog = {
+        ...newBlog,
+        user: {
+          id: newBlog.user,
+          username,
+          name
+        }
+      }
+
+      setBlogs([...blogs, populatedBlog])
       setBlogValues({ title: '', author: '', url: '' })
 
       setNotification({
@@ -138,11 +149,16 @@ const App = () => {
 
   const handleLike = async (blog) => {
     try {
-      const likedBlog = { ...blog, likes: blog.likes + 1 }
-      const response = await blogService.update(likedBlog, blog.id)
+      const likedBlog = {
+        ...blog,
+        user: { ...blog.user },
+        likes: blog.likes + 1
+      }
+      await blogService.update(likedBlog, blog.id)
+
       setBlogs(
         blogs.map((blog) =>
-          blog.id === likedBlog.id ? response : blog
+          blog.id === likedBlog.id ? likedBlog : blog
         )
       )
     } catch (exception) {

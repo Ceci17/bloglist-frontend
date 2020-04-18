@@ -11,8 +11,7 @@ const Input = (props) => {
         style={{
           padding: 5,
           marginBottom: 10,
-          fontSize: 12,
-          minWidth: 200
+          fontSize: 12
         }}
       />
     </>

@@ -121,69 +121,109 @@ describe('Blog app', function () {
       )
     })
 
+    // it('Blogs are sorted by number of likes', function () {
+    //   cy.contains('view').click()
+    //   cy.get('.btn-like').click()
+    //   cy.get('.btn-like').click()
+    //   cy.get('.btn-like').click()
+    //   cy.get('.total-likes').should('contain', '3 likes')
+    //   cy.createBlog({
+    //     title: 'Another blog about Cypress',
+    //     author: 'Stefan',
+    //     url: 'cypress.io'
+    //   })
+    //   cy.createBlog({
+    //     title: 'Cypress again...',
+    //     author: 'Stefan',
+    //     url: 'cypress.io'
+    //   })
+
+    //   cy.get('.btn-show').then((btn) => {
+    //     cy.wrap(btn).click({ multiple: true })
+    //   })
+
+    //   cy.get('.btn-like').eq(1).click()
+    //   cy.get('.btn-like').eq(1).click()
+    //   cy.get('.total-likes').eq(1).should('contain', '2 likes')
+
+    //   cy.get('.btn-like:last').click()
+    //   cy.get('article:last .total-likes').should('contain', '1 like')
+
+    //   cy.get('.blog')
+    //     .then(function (blog) {
+    //       return cy.wrap(blog).children()
+    //     })
+    //     .then(function (data) {
+    //       return cy.wrap(data).get('.total-likes')
+    //     })
+    //     .then(function (data) {
+    //       return data
+    //         .text()
+    //         .split('likes')
+    //         .map(function (word) {
+    //           return word.trim()
+    //         })
+    //         .map(function (num) {
+    //           return parseInt(num)
+    //         })
+    //     })
+    //     .then(function (data) {
+    //       expect(data).to.deep.eq([3, 2, 1])
+    //     })
+    // })
+
     it('Blogs are sorted by number of likes', function () {
       cy.contains('view').click()
       cy.get('.btn-like').click()
-      cy.get('.total-likes').should('contain', '1 like')
+      cy.get('.btn-like').click()
+      cy.get('.btn-like').click()
+      cy.get('.total-likes').should('contain', '3 likes')
       cy.createBlog({
         title: 'Another blog about Cypress',
         author: 'Stefan',
         url: 'cypress.io'
       })
-      cy.get('.btn-show').then((btn) => {
-        cy.wrap(btn).click({ multiple: true })
+      cy.createBlog({
+        title: 'Cypress again...',
+        author: 'Stefan',
+        url: 'cypress.io'
       })
 
-      function compare(arr1, arr2) {
-        if (!arr1 || !arr2) return
+      cy.get('.btn-show').then(function (btn) {
+        return cy.wrap(btn).click({ multiple: true })
+      })
 
-        let result
+      cy.get('.btn-like').eq(1).click()
+      cy.get('.btn-like').eq(1).click()
+      cy.get('.total-likes').eq(1).should('contain', '2 likes')
 
-        arr1.forEach((e1, i) =>
-          arr2.forEach((e2) => {
-            if (e1.length > 1 && e2.length) {
-              result = compare(e1, e2)
-            } else if (e1 !== e2) {
-              result = false
-            } else {
-              result = true
-            }
-          })
-        )
+      cy.get('.btn-like:last').click()
+      cy.get('article:last .total-likes').should('contain', '1 like')
 
-        return result
+      const blogs = cy
+        .request('GET', 'http://localhost:3003/api/blogs')
+        .then(function (blog) {
+          return blog.body
+        })
+
+      function copyOfArray() {
+        let arr = []
+        return new Cypress.Promise((resolve) => {
+          blogs
+            .each((el) => {
+              arr.push(el)
+            })
+            .then(() => resolve(arr))
+        })
       }
 
-      cy.get('.blog')
-        .then(function (blog) {
-          return cy.wrap(blog).children()
-        })
-        .then(function (data) {
-          return cy.wrap(data).get('.total-likes')
-        })
-        .then(function (data) {
-          return data
-            .text()
-            .split('like')
-            .map(function (word) {
-              return word.trim()
-            })
-            .filter(function (word) {
-              return word !== 's'
-            })
-            .map(function (num) {
-              return parseInt(num)
-            })
-        })
-        .then(function (data) {
-          const sorted = data.sort(function (a, b) {
-            return b - a
-          })
-          return compare(data, sorted)
-        })
-        .then(function (data) {
-          expect(data).to.be.true
-        })
+      copyOfArray().then((arr) => {
+        let actual = arr.slice()
+        cy.wrap(actual).should(
+          'deep.eq',
+          arr.sort((a, b) => b.likes - a.likes)
+        )
+      })
     })
   })
 })

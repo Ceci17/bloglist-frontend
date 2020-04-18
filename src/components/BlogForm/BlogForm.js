@@ -3,7 +3,16 @@ import Input from '../Input'
 
 const BlogForm = ({ values, handleBlogChange, handleBlogSubmit }) => {
   return (
-    <form id="blog-form" onSubmit={handleBlogSubmit}>
+    <form
+      id="blog-form"
+      onSubmit={handleBlogSubmit}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        marginBottom: '5px',
+        maxWidth: '300px'
+      }}
+    >
       <Input
         id="title"
         label="title"
@@ -28,7 +37,17 @@ const BlogForm = ({ values, handleBlogChange, handleBlogSubmit }) => {
         name="url"
         onChange={handleBlogChange}
       />
-      <button type="submit">add</button>
+      <button
+        style={{
+          backgroundColor: 'rgb(34, 187, 51)',
+          color: '#fff',
+          padding: '5px',
+          marginTop: '10px'
+        }}
+        type="submit"
+      >
+        add
+      </button>
     </form>
   )
 }

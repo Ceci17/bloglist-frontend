@@ -5,6 +5,7 @@ import Blog from '../Blog'
 
 describe('<Blog />', () => {
   let blog
+  let user
   beforeEach(async () => {
     blog = {
       title: 'Something',
@@ -17,17 +18,17 @@ describe('<Blog />', () => {
       }
     }
 
-    const user = {
+    user = {
       username: 'john_doe',
       token: 'cxwetwe242ew.s22fsp22',
       name: 'John Doe'
     }
-
-    await localStorage.setItem('loggedUser', JSON.stringify(user))
   })
 
   test('renders content', () => {
-    const { getByText, container } = render(<Blog blog={blog} />)
+    const { getByText, container } = render(
+      <Blog blog={blog} user={user} />
+    )
 
     expect(getByText('Something')).toBeDefined()
 
@@ -39,7 +40,7 @@ describe('<Blog />', () => {
   })
 
   test(`blog's url and number of likes are shown when the view button has been clicked`, () => {
-    const { getByText } = render(<Blog blog={blog} />)
+    const { getByText } = render(<Blog blog={blog} user={user} />)
 
     fireEvent.click(getByText('view'))
 
